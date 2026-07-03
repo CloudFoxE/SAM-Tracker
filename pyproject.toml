@@ -1,0 +1,47 @@
+[project]
+name = "tracker"
+version = "0.1.0"
+description = "Promptable multi-object video tracking (SAM3) with contour + trajectory export"
+requires-python = ">=3.13"
+dependencies = [
+    "torch>=2.12.0",
+    "torchvision>=0.27.0",
+    "transformers>=5.0.0",
+    "PyQt6==6.9.1",
+    "opencv-python==4.12.0.88",
+    "numpy==2.2.6",
+    "psutil",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-qt"]
+# Temporary SAM2 A/B backend. Install its optional CUDA extension is skipped
+# (set SAM2_BUILD_CUDA=0 SAM2_BUILD_ALLOW_ERRORS=1 in the environment before
+# `uv sync --extra sam2` / `uv lock`); the extension only affects a minor mask
+# post-processing refinement and is not needed for tracking.
+sam2 = ["sam-2"]
+
+[project.scripts]
+tracker = "tracker.app:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+# --- GPU PyTorch via uv ---
+# Route torch/torchvision to PyTorch's CUDA 13.0 (cu130) wheel index. The RTX 5090
+# (Blackwell, sm_120) runs cu128 through cu13x; cu128 was dropped in torch 2.12, so
+# cu130 is the current stable lane. `explicit = true` means this index is used ONLY
+# for the packages pinned to it below (it won't shadow PyPI for anything else).
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu130", marker = "sys_platform == 'win32' or sys_platform == 'linux'" }]
+torchvision = [{ index = "pytorch-cu130", marker = "sys_platform == 'win32' or sys_platform == 'linux'" }]
+sam-2 = { git = "https://github.com/facebookresearch/sam2.git", rev = "2b90b9f5ceec907a1c18123530e92e794ad901a4" }
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
