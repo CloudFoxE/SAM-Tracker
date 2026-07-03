@@ -115,11 +115,11 @@ lines shown below.
 Find this line near the top:
 
 ```python
-TRACKER_BACKEND = os.environ.get("TRACKER_BACKEND", "sam2")
+TRACKER_BACKEND = os.environ.get("TRACKER_BACKEND", "sam3")
 ```
 
-Change the word **`"sam2"`** to **`"sam3"`** to use SAM3 by default (or leave it as `"sam2"`
-for SAM2). That's the only change needed to switch models. Save the file.
+It's set to **`"sam3"`** by default (recommended). Change **`"sam3"`** to **`"sam2"`** if you'd
+rather use the SAM2 backend. That's the only change needed to switch models. Save the file.
 
 > **No‑edit alternative:** instead of editing the file, you can choose the backend each time
 > you launch, straight from PowerShell:
