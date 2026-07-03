@@ -236,3 +236,15 @@ window while the model is still loading.
 
 - The tracking backend is pluggable behind a `TrackerBackend` interface
   (`src/tracker/tracking/`), selected by `TRACKER_BACKEND` (`"sam2"` or `"sam3"`).
+
+---
+
+## License
+
+This project's **code** is released under the [MIT License](LICENSE) — you're free to
+use, modify, and redistribute it; just keep the copyright notice.
+
+**The AI model weights are licensed separately by Meta, not by this project.** In
+particular, **SAM3 is for non‑commercial research use only**, and SAM2 has its own
+license terms. Review Meta's licenses before using the models — especially for any
+commercial purpose. This MIT license covers only the application code in this repository.
